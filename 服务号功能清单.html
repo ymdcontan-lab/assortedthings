@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>i学习君 - 功能架构图</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 40%, #24243e 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    color: #fff;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .header::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    margin: 16px auto 0;
+    border-radius: 2px;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+  }
+
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #c4b5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 4px;
+  }
+
+  .header .subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    letter-spacing: 6px;
+    font-weight: 300;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .columns { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 32px 28px;
+    backdrop-filter: blur(20px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .card-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+
+  .card-login .card-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .card-login .card-header h2 { color: #f093fb; }
+
+  .card-growth .card-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+  .card-growth .card-header h2 { color: #4facfe; }
+
+  .card-family .card-icon { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  .card-family .card-header h2 { color: #43e97b; }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    border-left: 3px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .feature-item:hover {
+    background: rgba(255,255,255,0.08);
+  }
+
+  .card-login .feature-item { border-left-color: rgba(240, 147, 251, 0.5); }
+  .card-growth .feature-item { border-left-color: rgba(79, 172, 254, 0.5); }
+  .card-family .feature-item { border-left-color: rgba(67, 233, 123, 0.5); }
+
+  .feature-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .card-login .feature-dot { background: #f093fb; }
+  .card-growth .feature-dot { background: #4facfe; }
+  .card-family .feature-dot { background: #43e97b; }
+
+  .feature-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .feature-name {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .feature-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 2px;
+  }
+
+  .glow-1, .glow-2, .glow-3 {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .glow-1 { width: 400px; height: 400px; background: #667eea; top: -100px; left: -100px; }
+  .glow-2 { width: 350px; height: 350px; background: #764ba2; bottom: -80px; right: -80px; }
+  .glow-3 { width: 300px; height: 300px; background: #4facfe; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+</style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+<div class="glow-3"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo-area">
+      <div class="logo-icon">i</div>
+      <h1>i学习君</h1>
+    </div>
+    <p class="subtitle">家 长 端 服 务 号 · 功 能 架 构</p>
+  </div>
+
+  <div class="columns">
+
+    <!-- 1. 登录/注册 -->
+    <div class="card card-login">
+      <div class="card-header">
+        <div class="card-icon">🔐</div>
+        <h2>登录 / 注册</h2>
+      </div>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">注册</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">登录</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">绑定成长学员</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">绑定亲子学员</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">解绑</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 2. 成长服务 -->
+    <div class="card card-growth">
+      <div class="card-header">
+        <div class="card-icon">📚</div>
+        <h2>成长服务</h2>
+      </div>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">服务反馈</span>
+            <span class="feature-desc">即堂测报告，来源于老师录分</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">成长资料</span>
+            <span class="feature-desc">即课程配套的学习资料，来自于产品/课程配置</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">阶段报告</span>
+            <span class="feature-desc">即大型考试的报告，来自于E测评生成（双减后较少使用）</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">课程回看</span>
+            <span class="feature-desc">如果老师有录课，可通过课程回看功能进行查看</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">错题本</span>
+            <span class="feature-desc">来自堂测和学习资料的错题，供学生在线重练或打印</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">作文报告</span>
+            <span class="feature-desc">文美作文报告</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">其它</span>
+            <span class="feature-desc">我的订单、考勤</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 3. 亲子服务 -->
+    <div class="card card-family">
+      <div class="card-header">
+        <div class="card-icon">👨‍👩‍👧</div>
+        <h2>亲子服务</h2>
+      </div>
+      <ul class="feature-list">
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">服务计划</span>
+            <span class="feature-desc">针对新生的后续服务计划，由老师填写和推送</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">服务报告</span>
+            <span class="feature-desc">每节课后老师填写并推送的服务报告</span>
+          </div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-dot"></span>
+          <div class="feature-content">
+            <span class="feature-name">阶段总结</span>
+            <span class="feature-desc">针对某个阶段的总结和未来的服务计划，由老师填写和推送</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>i学习君 · 家长端服务号功能架构</p>
+  </div>
+
+</div>
+
+</body>
+</html>
